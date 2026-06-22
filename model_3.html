@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YMX M3 | Dossier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #000;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 560px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            text-align: left;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* change from right:0 to left:0 */
+            width: 100%;
+            /* full width */
+            height: 100%;
+            /* full height */
+            background-image: url(/images/model_m3.jpeg);
+            /* <<< UPDATED IMAGE REFERENCE */
+            background-position: center;
+            background-size: cover;
+            /* ensures image covers entire hero */
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            /* fixed can cause issues on mobile */
+            opacity: 0;
+            animation: fadeInImage 1.5s ease forwards 0.3s;
+            z-index: 1;
+            /* behind content */
+        }
+
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.426);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 40px 28px;
+            max-width: 900px;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: slideInUp 0.9s cubic-bezier(0.2,0.8,0.2,1) forwards 0.45s;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+
+        .hero-content p.subtitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: whitesmoke;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.404);
+            margin-bottom: 8px;
+        }
+
+        .hero-content h1 {
+            font-size: 6rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.458);
+            line-height: 0.9;
+            margin-bottom: 12px;
+            letter-spacing: -2px;
+        }
+
+        .hero-content p.tagline {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #Fff;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .hero-content button {
+            padding: 14px 38px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background: #0066B1;
+            color: #fff;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 102, 177, 0.3);
+        }
+
+        .hero-content button:hover {
+            background: #ffffff;
+            box-shadow: 0 6px 25px rgba(207, 215, 221, 0.4);
+            color: black;
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 60px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-align: center;
+            color: #000;
+            letter-spacing: -1px;
+            position: relative;
+        }
+
+        section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #0066B1;
+        }
+
+        /* Cards Container */
+        .cards,
+        .features,
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Card Styles */
+        .card,
+        .feature,
+        .stat {
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 0;
+            border: 1px solid #e0e0e0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before,
+        .feature::before,
+        .stat::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #0066B1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover::before,
+        .feature:hover::before,
+        .stat:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover,
+        .feature:hover,
+        .stat:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            border-color: #0066B1;
+        }
+
+        .card h3,
+        .feature h3,
+        .stat h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #0066B1;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .card p,
+        .feature p,
+        .stat p {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #000;
+            line-height: 1.6;
+        }
+
+        /* Section Backgrounds */
+        .interior {
+            background: #fafafa;
+        }
+
+        .exterior {
+            background: #ffffff;
+        }
+
+        .pricing {
+            background: #f5f5f5;
+        }
+
+        /* Stats specific styling */
+        .stat {
+            text-align: center;
+        }
+
+        .stat h3 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .stat p {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Animations */
+        @keyframes fadeInImage {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+
+            .cards,
+            .features,
+            .stats {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 100vh;
+            }
+
+            .hero::before {
+                width: 100%;
+                opacity: 0.3;
+            }
+
+            .hero::after {
+                background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.95) 60%, rgba(255, 255, 255, 0.98) 100%);
+            }
+
+            .hero-content {
+                padding: 40px 30px;
+                max-width: 100%;
+            }
+
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+
+            .hero-content p.tagline {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 60px 30px;
+            }
+
+            section h2 {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+
+            .cards,
+            .features,
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content {
+                padding: 30px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content p.subtitle {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-content p.tagline {
+                font-size: 0.95rem;
+                margin-bottom: 16px;
+            }
+
+            .hero-content button {
+                padding: 12px 28px;
+                font-size: 0.85rem;
+            }
+
+            section {
+                padding: 50px 20px;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .card h3,
+            .feature h3 {
+                font-size: 1.2rem;
+            }
+
+            .stat h3 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero visible" aria-label="YMX M3" role="img">
+        <div class="hero-content">
+            <p class="subtitle">M Performance</p>
+            <h1>M3</h1>
+            <p class="tagline">The definitive sports sedan. Unparalleled driving dynamics and everyday usability.</p>
+            <button>Know More</button>
+        </div>
+    </section>
+
+    <section class="interior">
+        <h2>Interior</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>M Carbon Bucket Seats</h3>
+                <p>Optional lightweight carbon seats for the track, providing exceptional support.</p>
+            </div>
+            <div class="card">
+                <h3>iDrive 8 Curved Display</h3>
+                <p>Seamless, integrated 14.9-inch Control Display and 12.3-inch Instrument Cluster.</p>
+            </div>
+            <div class="card">
+                <h3>Merino Leather Upholstery</h3>
+                <p>High-quality, fine-grain leather for a luxurious and sporty cabin feel.</p>
+            </div>
+            <div class="card">
+                <h3>M Mode Selector</h3>
+                <p>Customizable driving modes (Road, Sport, Track) accessible via steering wheel buttons.</p>
+            </div>
+            <div class="card">
+                <h3>Driver Assistance Systems</h3>
+                <p>Advanced safety and convenience features like Parking Assistant and Driving Assistant.</p>
+            </div>
+            <div class="card">
+                <h3>Illuminated M Badges</h3>
+                <p>Subtle illuminated M emblems on the seats and door sills for added flair.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="exterior">
+        <h2>Exterior</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>Vertical Kidney Grille</h3>
+                <p>The distinctive, large vertical grille designed for maximum engine cooling.</p>
+            </div>
+            <div class="feature">
+                <h3>Carbon Fiber Roof</h3>
+                <p>Standard Carbon Fiber Reinforced Plastic (CFRP) roof to lower the center of gravity.</p>
+            </div>
+            <div class="feature">
+                <h3>M Light-Alloy Wheels</h3>
+                <p>Staggered 19"/20" wheel setup for superior grip and aggressive visuals.</p>
+            </div>
+            <div class="feature">
+                <h3>Aerodynamic Mirrors</h3>
+                <p>M-specific double-strut side mirrors designed to reduce drag.</p>
+            </div>
+            <div class="feature">
+                <h3>M Compound Brakes</h3>
+                <p>High-performance braking system with optional Carbon Ceramic upgrades.</p>
+            </div>
+            <div class="feature">
+                <h3>Flared Wheel Arches</h3>
+                <p>Muscular, wider arches accommodating the wider track for enhanced stability.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing">
+        <h2>Pricing & Specs (M3 Competition)</h2>
+        <div class="stats">
+            <div class="stat">
+                <h3>$76,000</h3>
+                <p>Starting Price (Base)</p>
+            </div>
+            <div class="stat">
+                <h3>503 hp</h3>
+                <p>Horsepower (Competition Model)</p>
+            </div>
+            <div class="stat">
+                <h3>650 Nm</h3>
+                <p>Torque (Competition Model)</p>
+            </div>
+            <div class="stat">
+                <h3>3.5 sec</h3>
+                <p>0-100 km/h (xDrive)</p>
+            </div>
+            <div class="stat">
+                <h3>290 km/h</h3>
+                <p>Top Speed (with M Driver's Pkg)</p>
+            </div>
+            <div class="stat">
+                <h3>Inline 6-cyl Twin-Turbo</h3>
+                <p>Engine Type (S58)</p>
+            </div>
+            <div class="stat">
+                <h3>Drivetrain: RWD/xDrive</h3>
+                <p>Transmission/Drive</p>
+            </div>
+            <div class="stat">
+                <h3>Weight: 1,730 kg</h3>
+                <p>Car Weight (Approx)</p>
+            </div>
+            <div class="stat">
+                <h3>Fuel Efficiency: 10.3 L/100km</h3>
+                <p>Combined Fuel Usage (WLTP)</p>
+            </div>
+            <div class="stat">
+                <h3>Seats: 5</h3>
+                <p>Seating Capacity</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll fade-in effect
+        const sections = document.querySelectorAll('section:not(.hero)');
+
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for button
+        document.querySelector('.hero-content button').addEventListener('click', () => {
+            document.querySelector('.interior').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Card stagger animation on scroll
+        const cards = document.querySelectorAll('.card, .feature, .stat');
+        cards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.05}s`;
+        });
+    </script>
+
+</body>
+
+</html>

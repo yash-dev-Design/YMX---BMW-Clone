@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YMX i4 Series | Dossier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #000;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 560px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            text-align: left;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url(/images/ymx-e.png);
+            /* <<< UPDATED IMAGE REFERENCE for YMX i4 */
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            opacity: 0;
+            animation: fadeInImage 1.5s ease forwards 0.3s;
+            z-index: 1;
+        }
+
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            /* Slightly darker overlay for EV style */
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 60px;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(30px);
+            /* Sliding up for a futuristic feel */
+            animation: slideInUp 1s ease forwards 0.5s;
+        }
+
+
+        .hero-content p.subtitle {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #79d5ff;
+            /* Electric Blue color */
+            text-shadow: 0 0 20px rgba(121, 213, 255, 0.6);
+            margin-bottom: 8px;
+        }
+
+        .hero-content h1 {
+            font-size: 7rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            line-height: 0.9;
+            margin-bottom: 12px;
+            letter-spacing: -3px;
+        }
+
+        .hero-content p.tagline {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #Fff;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .hero-content button {
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            background: #0066B1;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 102, 177, 0.5);
+            border: 2px solid transparent;
+        }
+
+        .hero-content button:hover {
+            background: transparent;
+            box-shadow: 0 6px 25px rgba(121, 213, 255, 0.3);
+            color: #79d5ff;
+            border: 2px solid #79d5ff;
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 60px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-align: center;
+            color: #000;
+            letter-spacing: -1px;
+            position: relative;
+        }
+
+        section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: #79d5ff;
+            /* Electric Blue accent */
+        }
+
+        /* Cards Container */
+        .cards,
+        .features,
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Card Styles */
+        .card,
+        .feature,
+        .stat {
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .card::before,
+        .feature::before,
+        .stat::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #79d5ff;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover::before,
+        .feature:hover::before,
+        .stat:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover,
+        .feature:hover,
+        .stat:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border-color: #79d5ff;
+        }
+
+        .card h3,
+        .feature h3,
+        .stat h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0066B1;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .card p,
+        .feature p,
+        .stat p {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        /* Section Backgrounds */
+        .interior {
+            background: #fafafa;
+        }
+
+        .performance {
+            background: #ffffff;
+        }
+
+        .charging {
+            background: #f5f5f5;
+        }
+
+        /* Stats specific styling */
+        .stat {
+            text-align: center;
+        }
+
+        .stat h3 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            color: #0066B1;
+        }
+
+        .stat p {
+            font-size: 1rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Animations */
+        @keyframes fadeInImage {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+
+            .cards,
+            .features,
+            .stats {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 100vh;
+            }
+
+            .hero::before {
+                opacity: 0.2;
+            }
+
+            .hero::after {
+                background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.95) 60%, rgba(255, 255, 255, 0.98) 100%);
+            }
+
+            .hero-content {
+                padding: 40px 30px;
+                max-width: 100%;
+                /* Reset animation for better visibility */
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+
+            .hero-content h1 {
+                font-size: 4rem;
+                color: #000;
+                text-shadow: none;
+            }
+
+            .hero-content p.subtitle {
+                color: #0066B1;
+                text-shadow: none;
+            }
+
+            .hero-content p.tagline {
+                font-size: 1.1rem;
+                color: #333;
+            }
+
+            .hero-content button {
+                background: #0066B1;
+                color: white;
+            }
+
+            section {
+                padding: 60px 30px;
+            }
+
+            section h2 {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+
+            .cards,
+            .features,
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero visible" aria-label="YMX i4 Series" role="img">
+        <div class="hero-content">
+            <p class="subtitle">Fully Electric Gran Coupé</p>
+            <h1>i4</h1>
+            <p class="tagline">Electrified performance meets classic YMX coupé aesthetics, delivering exhilarating zero-emission driving.</p>
+            <button>Experience eDrive</button>
+        </div>
+    </section>
+
+    <section class="interior">
+        <h2>Interior & Digital Experience</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>YMX Operating System 8.5</h3>
+                <p>Latest generation software with QuickSelect functionality and enhanced user interface for swift access to controls.</p>
+            </div>
+            <div class="card">
+                <h3>Curved Display Cockpit</h3>
+                <p>A frameless, combined 12.3" Information Display and 14.9" Control Display angled towards the driver for optimal view. </p>
+            </div>
+            <div class="card">
+                <h3>Sustainable Materials</h3>
+                <p>Innovative use of materials, including recycled threads and sustainably sourced timber, reflecting YMX i's commitment to circularity.</p>
+            </div>
+            <div class="card">
+                <h3>IconicSounds Electric</h3>
+                <p>Driving soundscapes composed by Hans Zimmer, providing acoustic feedback for acceleration and vehicle state.</p>
+            </div>
+            <div class="card">
+                <h3>Ambient Lighting</h3>
+                <p>Customizable light scenarios across the dashboard and door panels, creating a modern, high-tech cabin atmosphere.</p>
+            </div>
+            <div class="card">
+                <h3>Spacious Gran Coupé Design</h3>
+                <p>Four doors and a large automatic tailgate offer practicality, while the low roofline maintains a sporty profile.</p>
+            </div>
+            </div>
+    </section>
+
+    <section class="performance">
+        <h2>Performance & eDrive Technology</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>Fifth Generation eDrive</h3>
+                <p>Highly integrated electric motors, transmission, and power electronics within a single housing for maximum efficiency and power density.</p>
+            </div>
+            <div class="feature">
+                <h3>Adaptive Recuperation</h3>
+                <p>Intelligent brake energy regeneration automatically adjusts recuperation intensity based on traffic and navigation data.</p>
+            </div>
+            <div class="feature">
+                <h3>Near-Actuator Wheel Slip Limitation (ARB)</h3>
+                <p>Extremely fast and precise traction control system for phenomenal grip and stability, especially in the M50 model.</p>
+            </div>
+            <div class="feature">
+                <h3>High-Voltage Battery Pack</h3>
+                <p>Flat battery construction integrated into the vehicle floor, ensuring a low center of gravity and excellent weight distribution.</p>
+            </div>
+            <div class="feature">
+                <h3>Sport Boost Function (i4 M50)</h3>
+                <p>Temporary power and torque increase, accompanied by a dynamic sound profile, for peak acceleration bursts.</p>
+            </div>
+            <div class="feature">
+                <h3>Aerodynamic Optimization</h3>
+                <p>Air Curtains and almost completely sealed underbody minimize drag, directly contributing to increased range.</p>
+            </div>
+            </div>
+    </section>
+
+    <section class="charging">
+        <h2>Key Specs (i4 eDrive40)</h2>
+        <div class="stats">
+            <div class="stat">
+                <h3>₹72.50 Lakh</h3>
+                <p>Starting Ex-Showroom Price (Approx)</p>
+            </div>
+            <div class="stat">
+                <h3>340 hp</h3>
+                <p>Maximum Horsepower</p>
+            </div>
+            <div class="stat">
+                <h3>430 Nm</h3>
+                <p>Maximum Torque</p>
+            </div>
+            <div class="stat">
+                <h3>5.7 sec</h3>
+                <p>0-100 km/h Acceleration</p>
+            </div>
+            <div class="stat">
+                <h3>83.9 kWh</h3>
+                <p>Battery Capacity (Gross)</p>
+            </div>
+            <div class="stat">
+                <h3>590 km</h3>
+                <p>WLTP Range (Max)</p>
+            </div>
+            <div class="stat">
+                <h3>200 kW</h3>
+                <p>Max DC Charging Rate</p>
+            </div>
+            <div class="stat">
+                <h3>RWD</h3>
+                <p>Drivetrain</p>
+            </div>
+            <div class="stat">
+                <h3>4 Series</h3>
+                <p>Base Model Equivalent</p>
+            </div>
+            <div class="stat">
+                <h3>Single Motor</h3>
+                <p>Electric Motor Configuration</p>
+            </div>
+            </div>
+    </section>
+
+    <script>
+        // Smooth scroll fade-in effect
+        const sections = document.querySelectorAll('section:not(.hero)');
+
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for button
+        document.querySelector('.hero-content button').addEventListener('click', () => {
+            document.querySelector('.interior').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Card stagger animation on scroll
+        const cards = document.querySelectorAll('.card, .feature, .stat');
+        cards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.05}s`;
+        });
+    </script>
+
+</body>
+
+</html>
